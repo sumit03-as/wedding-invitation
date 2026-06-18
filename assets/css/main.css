@@ -1,0 +1,227 @@
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;background:#000;font-family:'Cormorant Garamond',serif;color:#FDF6E3;overflow-x:hidden}
+
+:root{--bg:#020007;--accent:#FFDF8E;--muted:#B8A07A;--glass:rgba(255,255,255,.06)}
+
+/* ── INTRO OVERLAY ── */
+#intro{position:fixed;inset:0;z-index:99999;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:all}
+#intro.gone{display:none}
+.i-om{font-family:'Noto Serif Devanagari',serif;font-size:7rem;color:#C9952A;opacity:0;text-shadow:0 0 80px #C9952A,0 0 160px #C9952A44}
+.i-rule{width:0;height:1px;background:linear-gradient(90deg,transparent,#F0C060,transparent);margin:18px auto}
+.i-a{font-family:'Cinzel Decorative',serif;font-size:.72rem;letter-spacing:12px;color:#C9952A88;opacity:0;text-transform:uppercase}
+.i-names{font-family:'Great Vibes',cursive;font-size:4rem;color:#FFF;opacity:0;text-shadow:0 0 60px #C9952A}
+.i-sub{font-family:'Cinzel Decorative',serif;font-size:.6rem;letter-spacing:8px;color:#C9952A44;opacity:0;margin-top:10px}
+
+/* ── GLOBAL LAYOUT ── */
+.page{width:100%;min-height:100vh;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;padding:50px 16px}
+canvas.bg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0}
+
+/* ── NAV ── */
+#nav{position:fixed;right:20px;top:50%;transform:translateY(-50%);z-index:9999;display:flex;flex-direction:column;gap:12px}
+.nd{width:10px;height:10px;border-radius:50%;border:1.5px solid var(--c,#C9952A);cursor:pointer;transition:all .3s;position:relative;background:transparent}
+.nd::after{content:attr(data-t);position:absolute;right:18px;top:50%;transform:translateY(-50%);font-size:.58rem;letter-spacing:2px;color:var(--c,#C9952A);opacity:0;white-space:nowrap;transition:opacity .25s;pointer-events:none;font-family:'Cinzel Decorative',serif}
+.nd.on{background:var(--c,#C9952A);box-shadow:0 0 18px var(--c,#C9952A)}
+.nd:hover::after,.nd.on::after{opacity:1}
+
+/* ── KEYFRAMES ── */
+@keyframes shim{0%{background-position:-400% center}100%{background-position:400% center}}
+@keyframes floatY{0%,100%{transform:translateY(0)}50%{transform:translateY(-18px)}}
+@keyframes glowP{0%,100%{filter:drop-shadow(0 0 8px currentColor)}50%{filter:drop-shadow(0 0 30px currentColor) drop-shadow(0 0 80px currentColor)}}
+@keyframes rotCW{to{transform:rotate(360deg)}}
+@keyframes rotCCW{to{transform:rotate(-360deg)}}
+@keyframes flm{0%,100%{transform:scaleY(1) skewX(0) scaleX(1)}33%{transform:scaleY(1.18) skewX(-8deg) scaleX(.88)}66%{transform:scaleY(.86) skewX(8deg) scaleX(1.12)}}
+@keyframes pet{0%{opacity:0;transform:translateY(-20px) rotate(0) scale(.4)}8%{opacity:1}88%{opacity:.7}100%{opacity:0;transform:translateY(115vh) rotate(1080deg) scale(1.4)}}
+@keyframes ripple{0%{transform:scale(.3);opacity:1}100%{transform:scale(5);opacity:0}}
+@keyframes bounce{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(14px)}}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
+@keyframes aurora{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(80px,40px) scale(1.3)}}
+@keyframes sparkFly{0%{opacity:1;transform:translate(0,0) scale(1)}100%{opacity:0;transform:translate(var(--sx),var(--sy)) scale(0)}}
+@keyframes confetti{0%{transform:translateY(-10px) rotate(0);opacity:1}100%{transform:translateY(115vh) rotate(var(--r));opacity:.2}}
+@keyframes godRay{0%,100%{opacity:.03}50%{opacity:.1}}
+@keyframes smoke{0%{transform:translateY(0) scale(1);opacity:.5}100%{transform:translateY(-180px) scale(4) rotate(30deg);opacity:0}}
+@keyframes morphPath{0%{d:path('M0 0')}100%{d:path('M100 100')}}
+@keyframes borderRun{0%{background-position:0 50%}100%{background-position:200% 50%}}
+@keyframes orb1{0%{transform:rotate(0deg) translateX(125px) rotate(0deg)}100%{transform:rotate(360deg) translateX(125px) rotate(-360deg)}}
+@keyframes orb2{0%{transform:rotate(120deg) translateX(125px) rotate(-120deg)}100%{transform:rotate(480deg) translateX(125px) rotate(-480deg)}}
+@keyframes orb3{0%{transform:rotate(240deg) translateX(125px) rotate(-240deg)}100%{transform:rotate(600deg) translateX(125px) rotate(-600deg)}}
+@keyframes waveIn{from{opacity:0;clip-path:inset(0 100% 0 0)}to{opacity:1;clip-path:inset(0 0% 0 0)}}
+@keyframes sunRise{0%{opacity:0;transform:translateX(-50%) scaleY(0.1)}100%{opacity:1;transform:translateX(-50%) scaleY(1)}}
+@keyframes twinkle{0%,100%{opacity:.4;transform:scale(.8)}50%{opacity:1;transform:scale(1.3)}}
+
+/* ── SHIMMER VARIANTS ── */
+.shG{background:linear-gradient(90deg,#8B6914 0%,#F0C060 25%,#FFFAF0 50%,#F0C060 75%,#8B6914 100%);background-size:400%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:shim 4s linear infinite}
+.shP{background:linear-gradient(90deg,#4A0A9A,#C77DFF,#FFF,#C77DFF,#4A0A9A);background-size:400%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:shim 4s linear infinite}
+.shGr{background:linear-gradient(90deg,#005522,#00FF88,#FFF,#00FF88,#005522);background-size:400%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:shim 4s linear infinite}
+
+/* petal layer */
+.plr{position:absolute;inset:0;pointer-events:none;z-index:3;overflow:hidden}
+.pt{position:absolute;top:-40px;animation:pet linear infinite;will-change:transform}
+/* scroll hint */
+.sh{position:absolute;bottom:22px;left:50%;transform:translateX(-50%);font-size:.65rem;letter-spacing:5px;text-transform:uppercase;animation:bounce 2s ease-in-out infinite;z-index:10;opacity:.6}
+
+/* god rays */
+.ray{position:absolute;top:0;left:50%;transform-origin:top center;background:linear-gradient(180deg,rgba(255,210,100,.12),transparent);pointer-events:none;animation:godRay ease-in-out infinite alternate}
+
+/* ─── PAGE 1 ─── */
+#p1{background:radial-gradient(ellipse at 50% 30%,#1E0E00,#08050A,#000)}
+.sunrise{position:absolute;bottom:-20px;left:50%;transform:translateX(-50%);width:700px;height:320px;background:radial-gradient(ellipse at 50% 100%,#FF6600 0%,#FF330015 50%,transparent 70%);border-radius:50%;z-index:1;animation:pulse 5s ease-in-out infinite}
+.mountain{position:absolute;bottom:0;left:0;right:0;z-index:2;pointer-events:none}
+/* orbital wrap */
+.ow{position:relative;width:320px;height:320px;display:flex;align-items:center;justify-content:center;margin:0 auto 6px}
+.ml{position:absolute;pointer-events:none}
+.gsvg{position:relative;z-index:4;animation:floatY 4.5s ease-in-out infinite,glowP 3s ease-in-out infinite;color:#C9952A}
+.gsvg svg{width:165px;height:165px;filter:drop-shadow(0 0 20px #C9952A88) drop-shadow(0 0 50px #C9952A33)}
+.od{position:absolute;top:50%;left:50%;margin:-7px;width:14px;height:14px;border-radius:50%}
+.od1{background:radial-gradient(#FFD700,#C9952A);box-shadow:0 0 16px #FFD700,0 0 32px #FFD70066;animation:orb1 7s linear infinite}
+.od2{background:radial-gradient(#FF8888,#C93333);box-shadow:0 0 16px #FF6666;animation:orb2 10s linear infinite}
+.od3{background:radial-gradient(#88FFCC,#00AA66);box-shadow:0 0 16px #88FFCC;animation:orb3 13s linear infinite}
+/* mantra bordered box */
+.mbox{position:relative;max-width:520px;width:100%;margin:12px auto;padding:22px 30px;border-radius:14px;overflow:hidden}
+.mbox::before{content:'';position:absolute;inset:0;border-radius:14px;padding:1.5px;background:linear-gradient(135deg,#C9952A,#F0C060,#FFFDF0,#C9952A);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;animation:borderRun 3s linear infinite;background-size:200%}
+.mbox-bg{position:absolute;inset:0;background:linear-gradient(135deg,#1A0E00CC,#2A1800CC);backdrop-filter:blur(14px);border-radius:14px}
+.msk{font-family:'Noto Serif Devanagari',serif;font-size:1.22rem;color:#F0C060;line-height:2.3;text-shadow:0 0 24px #C9952A88;position:relative;z-index:1}
+.men{font-size:.82rem;color:#DDB87A;font-style:italic;margin-top:10px;line-height:1.9;position:relative;z-index:1}
+.p1c{position:relative;z-index:5;text-align:center;max-width:640px;width:100%;display:flex;flex-direction:column;align-items:center}
+.divr{border:none;height:1px;background:linear-gradient(90deg,transparent,#C9952A,#F0C060,#C9952A,transparent);margin:14px auto;width:85%;max-width:360px}
+.chip{border:1px solid #C9952A;border-radius:30px;padding:8px 22px;font-size:.7rem;color:#F0C060;letter-spacing:2px;cursor:pointer;transition:all .35s;font-family:'Cinzel Decorative',serif;background:#C9952A0F;position:relative;overflow:hidden}
+.chip::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,#C9952A55,transparent);transform:translateX(-100%);transition:transform .5s}
+.chip:hover::after{transform:translateX(100%)}
+.chip:hover{background:#C9952A;color:#1A0800;transform:translateY(-5px);box-shadow:0 14px 36px #C9952A66}
+
+/* ─── ARCH SYSTEM (shared p2/p3/p4) ─── */
+.arch-wrap{position:relative;z-index:5;width:min(820px,96vw)}
+.arch{position:relative;overflow:hidden;border-radius:24px 24px 0 0}
+.arch::after{content:'';position:absolute;top:0;left:0;right:0;height:5px;background:linear-gradient(90deg,transparent,var(--ac1),var(--ac2),var(--ac1),transparent);animation:shim 2.5s linear infinite;background-size:300%;z-index:5}
+.arch-border{position:absolute;inset:0;border-radius:24px 24px 0 0;padding:1.5px;background:linear-gradient(135deg,var(--ac1),var(--ac2),var(--ac1));-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;animation:borderRun 3s linear infinite;background-size:200%}
+.arch-glow{position:absolute;top:-80px;left:50%;transform:translateX(-50%);width:600px;height:250px;border-radius:50%;filter:blur(50px);opacity:.3;animation:pulse 4s ease-in-out infinite;pointer-events:none}
+.arch-inner{position:relative;z-index:2;text-align:center;padding:48px 36px 30px}
+.arch-badge{font-family:'Cinzel Decorative',serif;font-size:.62rem;letter-spacing:6px;text-transform:uppercase;display:block;margin-bottom:14px}
+.arch-num{font-family:'Cinzel Decorative',serif;font-size:8.5rem;font-weight:900;line-height:.82}
+.arch-month{font-size:1.3rem;letter-spacing:10px;text-transform:uppercase;margin:6px 0;opacity:.8}
+.arch-day{font-size:.8rem;letter-spacing:7px;margin-bottom:18px;opacity:.5}
+.arch-title{font-family:'Great Vibes',cursive;font-size:3.9rem;line-height:1}
+.arch-sub{font-size:.94rem;font-style:italic;margin-top:6px;opacity:.75}
+/* ritual strip */
+.rituals{display:grid;grid-template-columns:repeat(4,1fr)}
+.rc{padding:22px 14px;text-align:center;border-right:1px solid var(--rc,#C9952A)22;position:relative;overflow:hidden;transition:all .4s;cursor:default}
+.rc:last-child{border-right:none}
+.rc-shine{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 120%,var(--rs,#C9952A)22,transparent);transform:translateY(100%);transition:transform .5s}
+.rc:hover .rc-shine{transform:translateY(0)}
+.rc:hover{transform:translateY(-7px)}
+.rc-ic{font-size:2.4rem;margin-bottom:10px;display:block;animation:floatY 3s ease-in-out infinite}
+.rc-t{font-family:'Cinzel Decorative',serif;font-size:.54rem;letter-spacing:2.5px;margin-bottom:5px}
+.rc-d{font-size:.77rem;line-height:1.65;font-style:italic}
+/* mid band */
+.mband{padding:18px 32px;display:flex;align-items:center;justify-content:center;gap:24px}
+/* venue bar */
+.vbar{display:grid;grid-template-columns:repeat(3,1fr);text-align:center;padding:18px 28px;border-radius:0 0 24px 24px}
+.vb-l{font-size:.56rem;letter-spacing:3px;text-transform:uppercase;margin-bottom:5px;opacity:.45}
+.vb-v{font-size:1rem;font-weight:600}
+
+/* ─── PAGE 3 FIRE ─── */
+#p3{background:#02000A}
+.fire-scene{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:420px;height:380px;z-index:2;pointer-events:none}
+.fire-base{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);width:230px;height:55px;background:radial-gradient(ellipse,#5A2800,#1A0800);border-radius:50%;box-shadow:0 0 70px #8B4513,0 0 140px #8B451322}
+.fire-glow-bg{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);width:280px;height:180px;background:radial-gradient(ellipse,#FF440044,#FF110011,transparent);border-radius:50;animation:pulse .8s ease-in-out infinite}
+.fl-wrap{position:absolute;bottom:52px;left:50%;transform:translateX(-50%)}
+.fl{position:absolute;bottom:0;transform-origin:bottom center;border-radius:50% 50% 25% 25%;animation:flm ease-in-out infinite}
+.fa{width:72px;height:148px;background:linear-gradient(0deg,#CC0000,#FF5500,#FFAA00);left:-36px;animation-duration:.7s;filter:blur(4px);opacity:.85}
+.fb{width:56px;height:126px;background:linear-gradient(0deg,#FF3300,#FF8800,#FFDD00);left:-28px;animation-duration:.57s;animation-delay:.08s;filter:blur(2.5px)}
+.fc_{width:40px;height:100px;background:linear-gradient(0deg,#FF6600,#FFD700,#FFFF88);left:-20px;animation-duration:.45s;animation-delay:.16s;filter:blur(1px)}
+.fd{width:26px;height:72px;background:linear-gradient(0deg,#FFCC00,#FFFF44,#FFFFFF);left:-13px;animation-duration:.37s;animation-delay:.06s}
+.fe{width:15px;height:48px;background:linear-gradient(0deg,#FFFF44,#FFFFFF);left:-7.5px;animation-duration:.30s;animation-delay:.13s}
+.fpts{position:absolute;bottom:100px;left:50%;transform:translateX(-50%);width:280px;height:220px;pointer-events:none}
+.fp{position:absolute;border-radius:50%;animation:sparkFly ease-out infinite}
+.fsmk-wrap{position:absolute;bottom:130px;left:50%;transform:translateX(-50%);width:120px;height:120px}
+.fsmk{position:absolute;border-radius:50%;background:radial-gradient(circle,rgba(200,200,255,.12),transparent);animation:smoke ease-out infinite}
+
+/* ─── PARTICLE CANVAS for morphing ─── */
+#morphCanvas{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none}
+
+/* ─── PAGE 4 ─── */
+#p4{background:#000A04}
+.au-layer{position:absolute;inset:0;z-index:1;overflow:hidden;pointer-events:none}
+.au{position:absolute;border-radius:50%;filter:blur(90px);animation:aurora ease-in-out infinite}
+.conf-layer{position:absolute;inset:0;z-index:4;pointer-events:none;overflow:hidden}
+.cfd{position:absolute;animation:confetti ease-in infinite}
+.cdown{padding:22px 28px}
+.cdg{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.cdb{position:relative;overflow:hidden;border-radius:14px;padding:18px 8px;text-align:center;border:1px solid #00CC6633;transition:all .35s;cursor:default}
+.cdb::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,#00FF8806,transparent);animation:shim 4s linear infinite;background-size:300%}
+.cdb:hover{transform:translateY(-8px) scale(1.06);box-shadow:0 22px 55px #00CC6655;border-color:#00FF88}
+.cdn{font-family:'Cinzel Decorative',serif;font-size:3.2rem;font-weight:900;line-height:1}
+.cdl{font-size:.55rem;letter-spacing:4px;text-transform:uppercase;margin-top:6px;opacity:.5}
+.feats{display:grid;grid-template-columns:repeat(3,1fr)}
+.fc2{padding:20px 14px;text-align:center;border-right:1px solid #00CC6611;border-bottom:1px solid #00CC6611;position:relative;overflow:hidden;transition:all .4s;cursor:default}
+.fc2:nth-child(3),.fc2:nth-child(6){border-right:none}
+.fc2:nth-child(4),.fc2:nth-child(5),.fc2:nth-child(6){border-bottom:none}
+.fc2-glow{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 110%,#00FF8810,transparent);transform:translateY(100%);transition:transform .5s}
+.fc2:hover .fc2-glow{transform:translateY(0)}
+.fc2:hover{background:#00CC660A;transform:translateY(-4px)}
+.fc2-ic{font-size:2.3rem;margin-bottom:8px;display:block;animation:floatY 3s ease-in-out infinite}
+.fc2-t{font-family:'Cinzel Decorative',serif;font-size:.52rem;letter-spacing:2px;margin-bottom:4px}
+.fc2-d{font-size:.76rem;line-height:1.55;font-style:italic;opacity:.8}
+
+/* ─── PAGE 5 ─── */
+#p5{background:radial-gradient(ellipse at 50% 80%,#1A1000,#080600,#000)}
+.closing{position:relative;z-index:5;text-align:center;max-width:640px;width:100%;display:flex;flex-direction:column;align-items:center}
+.pin-wrap{position:relative;display:inline-block;margin-bottom:20px}
+.pring{position:absolute;border-radius:50%;border:2px solid #C9952A;animation:ripple 2.5s ease-out infinite}
+.pr1{inset:-12px;animation-delay:0s}.pr2{inset:-24px;animation-delay:.85s}.pr3{inset:-36px;animation-delay:1.7s}
+.pin-em{font-size:4.5rem;position:relative;z-index:2;filter:drop-shadow(0 0 24px #C9952A)}
+.cl-v{font-family:'Cinzel Decorative',serif;font-size:2.9rem;font-weight:900;letter-spacing:4px;line-height:1.2;margin:10px 0}
+.cl-a{font-size:1.5rem;color:#DDB87A;font-style:italic}
+.cl-p{font-size:.88rem;color:#C9952A44;letter-spacing:7px;margin-bottom:20px}
+.cl-divr{border:none;height:1px;background:linear-gradient(90deg,transparent,#C9952A,#F0C060,#C9952A,transparent);margin:18px auto;width:75%;max-width:320px}
+.cl-dates{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;width:100%;margin:12px 0}
+.cl-d{border-radius:14px;padding:18px 10px;text-align:center;transition:all .35s;cursor:default}
+.cl-d:hover{transform:translateY(-8px) scale(1.04)}
+.cl-d-ic{font-size:2rem;margin-bottom:8px;display:block;animation:floatY 3s ease-in-out infinite}
+.cl-d-ev{font-family:'Cinzel Decorative',serif;font-size:.5rem;letter-spacing:2px;margin:4px 0}
+.cl-d-dt{font-size:1.1rem;font-weight:600;color:#FDF6E3}
+.cl-bless{font-size:1rem;font-style:italic;color:#C8A87A;line-height:2.1;margin:14px 0;max-width:480px}
+.cl-om{font-family:serif;font-size:6rem;color:#C9952A;display:block;margin:10px 0;animation:floatY 4.5s ease-in-out infinite,glowP 3s ease-in-out infinite}
+.cl-tag{font-family:'Cinzel Decorative',serif;font-size:.66rem;letter-spacing:5px;color:#C9952A66;text-transform:uppercase}
+.cl-couple{font-family:'Great Vibes',cursive;font-size:3.4rem;margin-top:16px;animation:glowP 3.5s ease-in-out infinite;color:#C9952A}
+
+/* skt floaters */
+.skt{position:absolute;font-family:'Noto Serif Devanagari',serif;pointer-events:none;z-index:3;animation:floatY ease-in-out infinite;user-select:none}
+
+/* lanterns */
+.lnt{position:absolute;z-index:3;animation:floatY ease-in-out infinite;filter:drop-shadow(0 0 18px #FF9900) drop-shadow(0 0 36px #FF990044)}
+
+/* firework canvas */
+#fwCanvas{position:absolute;inset:0;width:100%;height:100%;z-index:2;pointer-events:none}
+
+@media(max-width:640px){
+  .rituals,.feats{grid-template-columns:repeat(2,1fr)}
+  .arch-num{font-size:5.5rem}.arch-title{font-size:2.7rem}
+  .arch-inner{padding:36px 16px 24px}
+  .vbar,.cdown{padding:14px 16px}
+  .cdg{grid-template-columns:1fr 1fr}
+  .cl-v{font-size:1.9rem}
+  .ow{width:260px;height:260px}
+  .gsvg svg{width:138px;height:138px}
+}
+
+/* Additional small rules */
+canvas.bg{will-change:transform;contain:strict}
+.page{contain:layout style}
+#morphCanvas{will-change:transform;contain:strict}
+#fwCanvas{will-change:transform;contain:strict}
+.pt{will-change:transform;contain:layout}
+.lnt{will-change:transform}
+.skt{will-change:transform}
+.fl{will-change:transform}
+
+/* Respect users who prefer reduced motion: remove heavy animations and visuals */
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation:none !important;transition:none !important}
+  .plr,.conf-layer,#fwCanvas,#morphCanvas,canvas.bg{display:none !important}
+  .nd::after,.chip::after{opacity:0 !important}
+}
+
+@keyframes vizBar{from{height:4px}to{height:22px}}
+@keyframes soGlow{0%{filter:drop-shadow(0 0 10px #C9952A)}100%{filter:drop-shadow(0 0 40px #C9952A) drop-shadow(0 0 80px #C9952A88)}}
+#musicCtrl{opacity:1}
+#musicCtrl.hide{opacity:0;pointer-events:none}
